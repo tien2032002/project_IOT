@@ -4,7 +4,7 @@ import requests
 
 AIO_FEED_IDs = ["temp", 'humid']
 AIO_USERNAME = "tien2032002"
-AIO_KEY = "aio_QQyd57gfGu3ocEP5ufM9UqDe1wYn"
+AIO_KEY = "aio_PUPv30dwBJGVkRC1K9AwPwkK0IX6"
 
 TEMP_TOPIC = "temp"
 HUMID_TOPIC = "humid"
