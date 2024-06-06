@@ -92,3 +92,5 @@ class Mqtt:
         thread.daemon = True
         thread.start()
 
+client =Mqtt()
+client.connect("io.adafruit.com", 1883, "tien2032002", "aio_ndBv12eQU7iiDTxt3mnAewi57MOQ")
