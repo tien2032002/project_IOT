@@ -64,7 +64,7 @@ class Adafruit_MQTT:
                                                                                                                                             
     def setup(self):                                                                                                                        
         # Create an MQTT client instance.                                                                                                   
-        self.__client = MQTTClient(self.__AIO_USERNAME , self.__AIO_KEY)                                                                    
+        self.__client = MQTTClient(self.__AIO_USERNAME , self.__AIO_KEY, secure=False)                                                                    
                                                                                                                                             
         # Setup the callback functions                                                                                                      
         self.__client.on_connect = self.connected                                                                                           
@@ -82,7 +82,7 @@ class Adafruit_MQTT:
         
 AIO_FEED_IDs = ['temp','humid']                                                                                                      
 AIO_USERNAME = 'tien2032002'                                                                                                                   
-AIO_KEY = "aio_OHma81jpRZuirUwOz9rF2yIYW2xN"
+AIO_KEY = "aio_BMhK33ORC8HNCXlu83zQ6GuldISI"
                                                                                                                                             
 # FUNCTION DEFINITIONS                                                                                                                      
 def callBackFunc_Message(feed_id, payload):                                                                                                 
