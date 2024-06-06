@@ -19,14 +19,8 @@ class Mqtt:
         self.client.on_connect = self.on_connect
 
     def on_connect(self, client, userdata, flags, rc):
-        if self.onConnect:
-            self.onConnect(rc == 0)
-            self.isConnected = True
-        else:
-            if rc == 0:
-                print(f"Connected to MQTT broker! [{self.server}:{self.port}]")
-            else:
-                print("Failed to connect to MQTT broker, return code: ", rc)
+        print(f"Connected to MQTT broker! [{self.server}:{self.port}]")
+
 
     # Callback function when a message is received from the broker
     def on_message(self, client, userdata, msg):
