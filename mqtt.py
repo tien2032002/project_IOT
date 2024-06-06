@@ -1,87 +1,46 @@
-import threading
+import sys
+from Adafruit_IO import Client, MQTTClient
+import time
 
-import paho.mqtt.client as mqtt
-from paho.mqtt.enums import CallbackAPIVersion, MQTTErrorCode
+AIO_FEED_IDs = ["temp", 'humid']
+AIO_USERNAME = "tien2032002"
+AIO_KEY = "aio_iXQC80XfQ48t1Jv74OytgQSWvtTN"
 
-
-class Mqtt:
-    server = ""
-    port = None
-    QOS = 1
-    onConnect = None
-    onMessage = None
-    username = None
-    password = None
-    isConnected = False
-
-    def __init__(self):
-        self.client = mqtt.Client()
-
-    def on_connect(self, client, userdata, flags, rc):
-        print(f"Connected to MQTT broker! [{self.server}:{self.port}]")
+TEMP_TOPIC = "temp"
+HUMID_TOPIC = "humid"
 
 
-    # Callback function when a message is received from the broker
-    def on_message(self, client, userdata, msg):
-        if self.onMessage:
-            self.onMessage(msg.topic, msg.payload.decode("utf-8"))
-        else:
-            print("Received message: ", str(msg.payload.decode("utf-8")) + " |Topic: " + str(msg.topic))
+class MQTT:
+    def __init__(self) -> None:
+        # set callback
+        self.client = MQTTClient(AIO_USERNAME , AIO_KEY)
+        self.client.on_connect = self.connected
+        self.client.on_disconnect = self.disconnected
+        self.client.on_message = self.message
+        self.client.on_subscribe = self.subscribe
+        self.client.connect()
+        self.client.loop_background()
+        
+    def connected(self, client):
+        print("Ket noi thanh cong ...")
+        for topic in AIO_FEED_IDs:
+            client.subscribe(topic)
 
-    def on_subscribe(self, client, userdata, mid, granted_qos):
-        print("Subscribed to topic!")
+    def subscribe(self, client , userdata , mid , granted_qos):
+        print("Subscribe thanh cong ...")
 
-    @staticmethod
-    def on_publish(client, userdata, mid):
-        pass
+    def disconnected(self, client):
+        print("Ngat ket noi ...")
+        sys.exit (1)
 
-    def on_disconnect(self, client, userdata, rc):
-        print(f"Disconnected with result code: {rc}")
-        self.isConnected = False
+    def message(self, client , feed_id , payload):
+        if (feed_id == HUMID_TOPIC):
+            self.humid = payload
+        elif (feed_id == TEMP_TOPIC):
+            self.temp = payload
 
-    def subscribe(self, topic):
-        try:
-            self.client.subscribe(topic=self.username + "/feeds/" + topic, qos=self.QOS)
-        except MQTTErrorCode as e:
-            print(e)
-
-    def publish(self, topic, payload):
-        try:
-            self.client.publish(topic=self.username + "/feeds/" + topic, payload=payload, qos=self.QOS)
-        except mqtt.MQTTMessageInfo as e:
-            print(e)
-
-    def setCallback(self, onConnect=None, onMessage=None):
-        if onConnect:
-            self.onConnect = onConnect
-        if onMessage:
-            self.onMessage = onMessage
-
-    def loop(self):
-        try:
-            self.client.loop_forever()
-        except Exception as e:
-            print("MQTT Error: Perhaps the services has been interrupted!")
-            print(e)
-
-    def connect(self, server, port, username, password):
-        self.client.username_pw_set(username, password)
-
-        # Set up callback functions
-        self.client.on_connect = self.on_connect
-        self.client.on_message = self.on_message
-        self.client.on_subscribe = self.on_subscribe
-        # self.client.on_publish = self.on_publish
-        self.client.on_disconnect = self.on_disconnect
-
-        # Connect to the MQTT broker
-        self.server = server
-        self.port = port
-        self.username = username
-        self.password = password
-        self.client.connect(server, port)
-        print(self.client.is_connected())
+client = MQTT()
+        
+        
 
 
-client =Mqtt()
-client.connect("io.adafruit.com", 1883, "tien2032002", "aio_iXQC80XfQ48t1Jv74OytgQSWvtTN")
