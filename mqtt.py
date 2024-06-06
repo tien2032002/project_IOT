@@ -1,77 +1,97 @@
-import sys
-from Adafruit_IO import Client, MQTTClient
-from datetime import datetime
-import requests
+import sys                                                                                                                                  
+from Adafruit_IO import MQTTClient                                                                                                          
+from dotenv import dotenv_values        
+                                                                                                 
+class Adafruit_MQTT:                                                                                                                        
+    # CLASS VARIABLES                                                                                                                       
+    # Variables                                                                                                                             
+    __AIO_FEED_IDs = None                                                                                                                   
+    __AIO_USERNAME = None                                                                                                                   
+    __AIO_KEY = None                                                                                                                        
+    __client = None                                                                                                                         
 
+    # Callback function for message                                                                                                         
+    callBackFunc = None                                                                                                                     
+                                                                                                                                            
+    # CLASS METHODS                                                                                                                         
+    # Getters                                                                                                                               
+    def getAllFeedIDs(self):                                                                                                                
+        return self.__client.feeds()                                                                                                        
+    def getAIOFeedIDs(self):                                                                                                                
+        return self.__AIO_FEED_IDs                                                                                                          
+    def getAIOUsername(self):                                                                                                               
+        return self.__AIO_USERNAME                                                                                                          
+    def getAIOKey(self):                                                                                                                    
+        return self.__AIO_KEY                                                                                                               
 
-AIO_FEED_IDs = ["temp", 'humid', 'light', 'light-button', 'ac-button', "user-datetime"]
-AIO_USERNAME = "tien2032002"
-AIO_KEY = "aio_vfuA18wC1N6tdh5fT8lnv8OrkvkN"
-MODEL_PATH = "IOT/keras_model.h5"
-CLASS_NAME_PATH = "IOT/labels.txt"
+    # Setters                                                                                                                               
+    def setAIOFeedIDs(self, aio_feed_ids):                                                                                                  
+        self.__AIO_FEED_IDs = aio_feed_ids                                                                                                  
+    def setAIOUsername(self, username):                                                                                                     
+        self.__AIO_USERNAME = username                                                                                                      
+    def setAIOKey(self, key):                                                                                                               
+        self.__AIO_KEY = key                                                                                                                
+    def setCallBackFunc(self, callBackFunc):                                                                                                
+        self.callBackFunc = callBackFunc                                                                                                    
 
-TEMP_TOPIC = "temp"
-HUMID_TOPIC = "humid"
-LIGHT_TOPIC = "light"
+    # Callback functions for 4 events                                                                                                       
+    def connected(self, client):                                                                                                            
+        # This will be called when the client connects.                                                                                     
+        print("Notification: Connected Successfully!")                                                                                      
+        for feed in self.__AIO_FEED_IDs:                                                                                                    
+            client.subscribe(feed)                                                                                                          
+    def subscribe(self, client , userdata , mid , granted_qos):                                                                             
+        # This will be called when the client subscribes to a new feed.                                                                     
+        print("Notification: Subscribed to feed: " + str(mid) + ", QoS " + str(granted_qos))                                                
+    def message(self, client , feed_id , payload):                                                                                          
+        # This will be called when a message is received.                                                                                   
+        print("Notification: Received: " + payload + " from " + feed_id)                                                                    
+        if self.callBackFunc != None:                                                                                                       
+            self.callBackFunc(feed_id, payload)                                                                                             
+    def disconnected(self, client):                                                                                                         
+        # This will be called when the client disconnects.                                                                                  
+        print("Notification: Disconnected from Adafruit IO!")                                                                               
+        sys.exit(1)                                                                                                                         
+                                                                                                                                            
+    # Constructor                                                                                                                           
+    def __init__(self, username, key, aio_feed_ids, callBackFunc = None):                                                                   
+        # Only setup parameters                                                                                                             
+        self.__AIO_FEED_IDs = aio_feed_ids                                                                                                  
+        self.__AIO_USERNAME = username                                                                                                      
+        self.__AIO_KEY = key                                                                                                                
+        self.callBackFunc = callBackFunc                                                                                                    
+                                                                                                                                            
+    def setup(self):                                                                                                                        
+        # Create an MQTT client instance.                                                                                                   
+        self.__client = MQTTClient(self.__AIO_USERNAME , self.__AIO_KEY)                                                                    
+                                                                                                                                            
+        # Setup the callback functions                                                                                                      
+        self.__client.on_connect = self.connected                                                                                           
+        self.__client.on_subscribe = self.subscribe                                                                                         
+        self.__client.on_message = self.message                                                                                             
+        self.__client.on_disconnect = self.disconnected                                                                                     
 
-LED_BUTTON = "light-button"
-AC_BUTTON = "ac-button" #air conditional 
-
-
-class MQTT:
-    def __init__(self) -> None:
-        # set callback
-        self.client = MQTTClient(AIO_USERNAME , AIO_KEY)
-        self.client2 = Client(AIO_USERNAME , AIO_KEY)
-        self.client.on_connect = self.connected
-        self.client.on_disconnect = self.disconnected
-        self.client.on_message = self.message
-        self.client.on_subscribe = self.subscribe
-        self.client.connect()
-        self.client.loop_background()
+    def connect_and_loop(self):                                                                                                             
+        self.__client.connect()                                                                                                             
+        self.__client.loop_background()                                                                                                     
+                                                                                                                                            
+    def publish(self, feed_id, value):                                                                                                      
+        # This will send "value" to the feed "feed_id".                                                                                     
+        self.__client.publish(feed_id, value)
         
-        # sensor data
-        self.temp = self.getCurrentTopicData(TEMP_TOPIC)
-        self.humid = self.getCurrentTopicData(HUMID_TOPIC)
-        self.light = self.getCurrentTopicData(LIGHT_TOPIC)
-
-        
-        
-    def getCurrentTopicData(self, topic_name):
-        url = f'https://io.adafruit.com/api/v2/{AIO_USERNAME}/feeds/{topic_name}'
-        # print(requests.get(url).json())
-        return requests.get(url).json()["last_value"]
-    
-    def connected(self, client):
-        print("Ket noi thanh cong ...")
-        for topic in AIO_FEED_IDs:
-            client.subscribe(topic)
-
-    def subscribe(self, client , userdata , mid , granted_qos):
-        print("Subscribe thanh cong ...")
-
-    def disconnected(self, client):
-        print("Ngat ket noi ...")
-        sys.exit (1)
-
-    def message(self, client , feed_id , payload):
-        if (feed_id == HUMID_TOPIC):
-            self.humid = payload
-        elif (feed_id == TEMP_TOPIC):
-            self.temp = payload
-        elif (feed_id == LIGHT_TOPIC):
-            self.light = payload
-        elif (feed_id == LED_BUTTON):
-            self.led_button = payload
-        elif (feed_id == AC_BUTTON):
-            self.ac_button = payload
-
-    
-    def get_history(self, topic, limit):
-        return self.client2.data(topic, max_results=limit)
-    
-    def user_scheduler(self):
-        self.client.publish(LED_BUTTON, 0)
-        
-client = MQTT()
-
+AIO_FEED_IDs = ['temp','humid']                                                                                                      
+AIO_USERNAME = 'tien2032002'                                                                                                                   
+AIO_KEY = "aio_zHWf32gALvMsYBEsyReQPkKiGaOc"
+                                                                                                                                            
+# FUNCTION DEFINITIONS                                                                                                                      
+def callBackFunc_Message(feed_id, payload):                                                                                                 
+    print("Feed: " + feed_id + " - Value: " + payload)                                                                                      
+                                                                                                                                            
+# MAIN PROGRAM                                                                                                                              
+# Create an instance of Adafruit_MQTT class                                                                                                 
+client = Adafruit_MQTT(AIO_USERNAME, AIO_KEY, AIO_FEED_IDs, callBackFunc_Message)                                                           
+client.setup()                                                                                                                              
+client.connect_and_loop()                                                                                                                   
+                                                                                                                                            
+while True:                                                                                                                                 
+    time.sleep(1)
