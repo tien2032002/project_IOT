@@ -16,6 +16,7 @@ class Mqtt:
 
     def __init__(self):
         self.client = mqtt.Client(callback_api_version=CallbackAPIVersion.VERSION1)
+        self.client.on_connect = self.on_connect
 
     def on_connect(self, client, userdata, flags, rc):
         if self.onConnect:
@@ -90,4 +91,4 @@ class Mqtt:
 
 
 client =Mqtt()
-client.connect("io.adafruit.com", 1883, "tien2032002", "aio_HWoF45PlRkJrLEghf35Xyy4TiyfO")
+client.connect("io.adafruit.com", 1883, "tien2032002", "aio_iXQC80XfQ48t1Jv74OytgQSWvtTN")
