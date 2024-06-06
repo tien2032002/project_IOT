@@ -64,7 +64,7 @@ class Adafruit_MQTT:
                                                                                                                                             
     def setup(self):                                                                                                                        
         # Create an MQTT client instance.                                                                                                   
-        self.__client = MQTTClient(self.__AIO_USERNAME , self.__AIO_KEY, secure=False)                                                                    
+        self.__client = MQTTClient(self.__AIO_USERNAME , self.__AIO_KEY)                                                                    
                                                                                                                                             
         # Setup the callback functions                                                                                                      
         self.__client.on_connect = self.connected                                                                                           
@@ -81,8 +81,8 @@ class Adafruit_MQTT:
         self.__client.publish(feed_id, value)
         
 AIO_FEED_IDs = ['temp','humid']                                                                                                      
-AIO_USERNAME = 'tien2032002'                                                                                                                   
-AIO_KEY = "aio_BMhK33ORC8HNCXlu83zQ6GuldISI"
+AIO_USERNAME = 'nemo2602'                                                                                                                   
+AIO_KEY = "aio_juko93A2ZRthKtJUKz05xIGxOHRA"
                                                                                                                                             
 # FUNCTION DEFINITIONS                                                                                                                      
 def callBackFunc_Message(feed_id, payload):                                                                                                 
