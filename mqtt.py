@@ -87,7 +87,6 @@ class Mqtt:
         self.username = username
         self.password = password
         self.client.connect(server, port)
-        print (self.isConnected())
 
 
 client =Mqtt()
