@@ -82,7 +82,7 @@ class Adafruit_MQTT:
         
 AIO_FEED_IDs = ['temp','humid']                                                                                                      
 AIO_USERNAME = 'nemo2602'                                                                                                                   
-AIO_KEY = "aio_juko93A2ZRthKtJUKz05xIGxOHRA"
+AIO_KEY = input("Enter AIO-key")
                                                                                                                                             
 # FUNCTION DEFINITIONS                                                                                                                      
 def callBackFunc_Message(feed_id, payload):                                                                                                 
