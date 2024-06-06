@@ -81,7 +81,7 @@ class Adafruit_MQTT:
         self.__client.publish(feed_id, value)
         
 AIO_FEED_IDs = ['temp','humid']                                                                                                      
-AIO_USERNAME = 'nemo2602'                                                                                                                   
+AIO_USERNAME = 'tien2032002'                                                                                                                   
 AIO_KEY = input("Enter AIO-key")
                                                                                                                                             
 # FUNCTION DEFINITIONS                                                                                                                      
