@@ -23,17 +23,6 @@ class MQTT:
         self.client.on_subscribe = self.subscribe
         self.client.connect()
         self.client.loop_background()
-        
-        # sensor data
-        self.temp = self.getCurrentTopicData(TEMP_TOPIC)
-        self.humid = self.getCurrentTopicData(HUMID_TOPIC)
-        
-        
-        
-    def getCurrentTopicData(self, topic_name):
-        url = f'https://io.adafruit.com/api/v2/{AIO_USERNAME}/feeds/{topic_name}'
-        # print(requests.get(url).json())
-        return requests.get(url).json()["last_value"]
     
     def connected(self, client):
         print("Ket noi thanh cong ...")
