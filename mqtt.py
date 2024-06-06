@@ -1,6 +1,6 @@
 import sys                                                                                                                                  
 from Adafruit_IO import MQTTClient                                                                                                          
-from dotenv import dotenv_values   
+# from dotenv import dotenv_values   
 import time     
                                                                                                  
 class Adafruit_MQTT:                                                                                                                        
@@ -82,7 +82,7 @@ class Adafruit_MQTT:
         
 AIO_FEED_IDs = ['temp','humid']                                                                                                      
 AIO_USERNAME = 'tien2032002'                                                                                                                   
-AIO_KEY = "aio_QAEB33gLdH9VtJjdUINy50wRO3nV"
+AIO_KEY = "aio_OHma81jpRZuirUwOz9rF2yIYW2xN"
                                                                                                                                             
 # FUNCTION DEFINITIONS                                                                                                                      
 def callBackFunc_Message(feed_id, payload):                                                                                                 
