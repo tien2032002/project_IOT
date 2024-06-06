@@ -86,11 +86,8 @@ class Mqtt:
         self.username = username
         self.password = password
         self.client.connect(server, port)
+        print (self.isConnected())
 
-        # Loop to maintain the services and process incoming messages
-        thread = threading.Thread(target=self.loop)
-        thread.daemon = True
-        thread.start()
 
 client =Mqtt()
 client.connect("io.adafruit.com", 1883, "tien2032002", "aio_HWoF45PlRkJrLEghf35Xyy4TiyfO")
