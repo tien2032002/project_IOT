@@ -4,7 +4,7 @@ import requests
 
 AIO_FEED_IDs = ["temp", 'humid']
 AIO_USERNAME = "tien2032002"
-AIO_KEY = "aio_muBs19TGdezLj1X5T7aIXifkw0K2"
+AIO_KEY = "aio_ndBv12eQU7iiDTxt3mnAewi57MOQ"
 
 TEMP_TOPIC = "temp"
 HUMID_TOPIC = "humid"
@@ -54,3 +54,4 @@ class MQTT:
         
 
 
+client = MQTT()
