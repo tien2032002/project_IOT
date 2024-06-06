@@ -1,5 +1,5 @@
 import sys
-from Adafruit_IO import Client, MQTTClient
+from Adafruit_IO import MQTTClient
 import requests
 
 AIO_FEED_IDs = ["temp", 'humid']
@@ -13,7 +13,6 @@ class MQTT:
     def __init__(self) -> None:
         # set callback
         self.client = MQTTClient(AIO_USERNAME , AIO_KEY)
-        self.client2 = Client(AIO_USERNAME , AIO_KEY)
         self.client.on_connect = self.connected
         self.client.on_disconnect = self.disconnected
         self.client.on_message = self.message
