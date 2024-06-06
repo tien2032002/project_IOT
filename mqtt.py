@@ -15,7 +15,7 @@ class Mqtt:
     isConnected = False
 
     def __init__(self):
-        self.client = mqtt.Client(callback_api_version=CallbackAPIVersion.VERSION1)
+        self.client = mqtt.Client()
 
     def on_connect(self, client, userdata, flags, rc):
         print(f"Connected to MQTT broker! [{self.server}:{self.port}]")
