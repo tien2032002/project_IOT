@@ -2,7 +2,7 @@ print("Sensors and Actuators")
                                                                                                                                                                                                                                                                                                                                                                                             
 import time                                                                                                                                                                                                                                                                                                                                                                                 
 import serial.tools.list_ports
-import Serial as s
+import serial as s
 
 relay_ON = [                                                                                                                                                                                                                                                                                                                                                                                
       None,                                                                                                                                                                                                                                                                                                                                                                                 
