@@ -1,2 +1,0 @@
-class NetworkManager:
-    pass
