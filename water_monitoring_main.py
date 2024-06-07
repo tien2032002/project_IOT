@@ -9,9 +9,9 @@ mqtt = MQTT()
 rs485 = Rs485()
 
 while (1):
-    print(rs485.readMoisture())
+    print('moisture: ', rs485.readMoisture())
     time.sleep(1)
-    print(rs485.readTemperature())
+    print('temp', rs485.readTemperature())
     time.sleep(1)
 
 # scheduler = Scheduler()

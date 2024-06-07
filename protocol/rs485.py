@@ -27,8 +27,8 @@ relay_OFF = [
       [7, 6, 0, 0, 0, 0, 137, 172],    # Relay 7 OFF                                                                                                                                                                                                                                                                                                                                        
       [8, 6, 0, 0, 0, 0, 137, 83]      # Relay 8 OFF                                                                                                                                                                                                                                                                                                                                        
           ]
-soil_temperature =[1, 3, 0, 6, 0, 1, 100, 11]
-soil_moisture = [1, 3, 0, 7, 0, 1, 53, 203]
+soil_temperature =[10, 3, 0, 6, 0, 1, 101, 112]
+soil_moisture = [10, 3, 0, 7, 0, 1, 52, 176]
                 
 class Rs485:
     def __init__(self):
@@ -93,7 +93,7 @@ class Rs485:
         self.clear_buffer()                                                                                                                                                                                                                                                                                                                                              
         self.ser.write(s.to_bytes(soil_temperature))                                                                                                                                                                                                                                                                                                                                                             
         time.sleep(1)                                                                                                                                                                                                                                                                                                                                                                           
-        return self.serial_read_data(self.ser)                                                                                                                                                                                                                                                                                                                                                            
+        return self.serial_read_data()                                                                                                                                                                                                                                                                                                                                                            
                                                                                                                                                                                                                                                                                                                                                                                                 
 
     def readMoisture(self):                                                                                                                                                                                                                                                                                                                                                                         
