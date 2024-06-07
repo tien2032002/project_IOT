@@ -33,6 +33,7 @@ class Rs485:
     def __init__(self):
         self.portName = self.getPort()
         self.rate = 9600
+        self.connect()
                                                                                                                                                                                                                                                                                                                                    
     def getPort(self):                                                                                                                                                                                                                                                                                                                                                                              
         ports = serial.tools.list_ports.comports()                                                                                                                                                                                                                                                                                                                                              
