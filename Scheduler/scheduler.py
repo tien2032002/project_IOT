@@ -46,8 +46,12 @@ class Scheduler:
             if self.SCH_tasks_G[0].Period > 0:
                 self.SCH_Add_Task(self.SCH_tasks_G[0].pTask, self.SCH_tasks_G[0].Period, self.SCH_tasks_G[0].Period)
             self.SCH_tasks_G.pop(0)
-            print(self.SCH_tasks_G)
+            self.current_index_task-=1
 
+    def print_delay_list(self):
+        for i in range(self.current_index_task):
+            print (self.SCH_tasks_G[i].Delay)
+    
     def SCH_Delete(self, aTask):
         return
 
