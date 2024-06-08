@@ -30,7 +30,7 @@ class Scheduler:
                 if total >= DELAY*self.TICK:
                     self.SCH_tasks_G.insert(index, aTask)
                     break
-                if index == self.current_index_task:
+                if index == self.current_index_task - 1:
                     self.SCH_tasks_G.append(aTask)
             self.current_index_task += 1
             print(f"add task with delay = {DELAY}, period = {PERIOD}")
