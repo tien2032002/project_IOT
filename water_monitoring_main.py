@@ -19,7 +19,7 @@ scheduler.SCH_Init()
 
 scheduler.SCH_Add_Task(testTask1, 0, 1)
 scheduler.SCH_Add_Task(testTask2, 0.5, 1)
-scheduler.print_delay_list()
+
 
 # while (1):
 #     scheduler.SCH_Update()
