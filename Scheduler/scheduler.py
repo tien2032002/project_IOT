@@ -47,6 +47,7 @@ class Scheduler:
                 self.SCH_Add_Task(self.SCH_tasks_G[0].pTask, self.SCH_tasks_G[0].Period, self.SCH_tasks_G[0].Period)
             self.SCH_tasks_G.pop(0)
             self.current_index_task-=1
+            self.print_delay_list()
 
     def print_delay_list(self):
         for i in range(self.current_index_task):
