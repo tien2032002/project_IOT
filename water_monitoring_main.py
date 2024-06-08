@@ -1,7 +1,7 @@
 import PrivateTasks.task_1
 import PrivateTasks.task_2
 from protocol.rs485 import Rs485
-from protocol.mqtt import MQTT
+# from protocol.mqtt import MQTT
 from Scheduler.scheduler import  *
 import time
 
