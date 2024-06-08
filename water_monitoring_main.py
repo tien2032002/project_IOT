@@ -1,7 +1,7 @@
 import PrivateTasks.task_1
 import PrivateTasks.task_2
-from protocol.rs485 import Rs485
-from protocol.mqtt import MQTT
+# from protocol.rs485 import Rs485
+# from protocol.mqtt import MQTT
 from Scheduler.scheduler import  *
 import time
 
@@ -18,7 +18,8 @@ scheduler = Scheduler()
 scheduler.SCH_Init()
 
 scheduler.SCH_Add_Task(testTask1, 0, 1)
-scheduler.SCH_Add_Task(testTask2, 0.5, 1)
+scheduler.SCH_Add_Task(testTask2, 2, 2)
+
 
 while (1):
     scheduler.SCH_Update()
