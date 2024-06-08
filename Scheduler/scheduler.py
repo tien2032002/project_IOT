@@ -16,7 +16,7 @@ class Scheduler:
     def SCH_Add_Task(self, pFunction, DELAY, PERIOD):
         if self.current_index_task == 0:
             aTask = Task(pFunction, DELAY / self.TICK, PERIOD / self.TICK)
-            self.SCH_tasks_G[0] = aTask
+            self.SCH_tasks_G.append(aTask)
             self.current_index_task += 1
             print(f"add task with delay = {DELAY}, period = {PERIOD}")
             return True
