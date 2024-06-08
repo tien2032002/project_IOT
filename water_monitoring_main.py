@@ -16,8 +16,9 @@ def testTask2():
     
 scheduler = Scheduler()
 scheduler.SCH_Init()
-scheduler.SCH_Add_Task(testTask1, 0, 1000)
-scheduler.SCH_Add_Task(testTask2, 500, 1000)
+
+scheduler.SCH_Add_Task(testTask1, 0, 1)
+scheduler.SCH_Add_Task(testTask2, 0.5, 1)
 
 while (1):
     scheduler.SCH_Update()
