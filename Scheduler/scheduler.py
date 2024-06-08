@@ -23,12 +23,14 @@ class Scheduler:
 
         if self.current_index_task < self.SCH_MAX_TASKS:
             total = 0
+            aTask = Task(pFunction, DELAY * self.TICK - total, PERIOD * self.TICK)
             for index in range(self.current_index_task):
                 total+=self.SCH_tasks_G[index].Delay
-                if total <= DELAY/self.TICK:
-                    aTask = Task(pFunction, DELAY * self.TICK - total, PERIOD * self.TICK)
-                    self.SCH_tasks_G.insert(index+1, aTask)
+                if total >= DELAY*self.TICK:
+                    self.SCH_tasks_G.insert(index, aTask)
                     break
+                if index == self.current_index_task:
+                    self.SCH_tasks_G.append(aTask)
             self.current_index_task += 1
             print(f"add task with delay = {DELAY}, period = {PERIOD}")
             return True
@@ -43,10 +45,15 @@ class Scheduler:
     def SCH_Dispatch_Tasks(self):
         if self.SCH_tasks_G[0].Delay <=0:
             self.SCH_tasks_G[0].pTask()
+            
             if self.SCH_tasks_G[0].Period > 0:
-                self.SCH_Add_Task(self.SCH_tasks_G[0].pTask, self.SCH_tasks_G[0].Period, self.SCH_tasks_G[0].Period)
-            self.SCH_tasks_G.pop(0)
-            self.current_index_task-=1
+                self.SCH_tasks_G.pop(0)
+                self.current_index_task-=1
+                new_pTask = self.SCH_tasks_G[0].pTask
+                new_delay = self.SCH_tasks_G[0].Delay/self.TICK
+                new_period = self.SCH_tasks_G[0].Period/self.TICK
+                self.SCH_Add_Task(new_pTask, new_delay, new_period)
+           
             self.print_delay_list()
 
     def print_delay_list(self):
