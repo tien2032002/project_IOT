@@ -38,7 +38,7 @@ class Scheduler:
 
     def SCH_Update(self):
         if self.current_index_task > 0:
-            self.SCH_tasks_G[0] -= 1
+            self.SCH_tasks_G[0].Delay -= 1
 
     def SCH_Dispatch_Tasks(self):
         if self.SCH_tasks_G[0].Delay <=0:
