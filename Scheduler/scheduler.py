@@ -58,7 +58,6 @@ class Scheduler:
 
     def print_delay_list(self):
         for i in range(self.current_index_task):
-            print (i)
             print (self.SCH_tasks_G[i].Delay)
     
     def SCH_Delete(self, aTask):
