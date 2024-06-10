@@ -23,6 +23,7 @@ class MQTT:
         self.client.on_subscribe = self.subscribe
         self.client.connect()
         self.client.loop_background()
+        time.sleep(2)
     
     def connected(self, client):
         print("Ket noi thanh cong ...")
