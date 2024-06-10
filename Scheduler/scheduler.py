@@ -64,7 +64,8 @@ class Scheduler:
         for i in range(self.current_index_task):
             print (self.SCH_tasks_G[i].Delay)
     
-    def SCH_Delete(self, aTask):
+    def SCH_Delete_all(self):
+        self.SCH_tasks_G = []
         return
 
     def SCH_GenerateID(self):

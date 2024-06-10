@@ -108,3 +108,14 @@ class Rs485:
         if bytesToRead > 0:
             out = self.ser.read(bytesToRead)
             print ("buffer: ", out)
+            
+    def turn_on_relay(self, id):
+        self.serial_read_data()
+        self.clear_buffer()
+        self.ser.write(s.to_bytes(relay_ON[id]))
+        return True
+    
+    def turn_off_relay(self, id):
+        self.serial_read_data()
+        self.clear_buffer()
+        self.ser.write(s.to_bytes(relay_OFF[id]))  
