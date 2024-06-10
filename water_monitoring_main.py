@@ -53,30 +53,30 @@ def mixer2():
 def mixer3():
     print (f"mixer3: {routine['MIXER3']}")
     rs485.turn_on_relay(3)
-    scheduler.SCH_Add_Task(pump_in, routine["PUMP_IN"], 0)
+    scheduler.SCH_Add_Task(pump_in, routine['PUMP_IN'], 0)
     
 def pump_in():
-    print (f"pump in: {routine["PUMP_IN"]}")
+    print (f"pump in: {routine['PUMP_IN']}")
     rs485.turn_on_relay(4)
     scheduler.SCH_Add_Task(selector1, routine["SELECTOR1"], 0)
     
 def selector1():
-    print (f"selector1: {routine["SELECTOR1"]}")
+    print (f"selector1: {routine['SELECTOR1']}")
     rs485.turn_on_relay(5)
     scheduler.SCH_Add_Task(selector2, routine["SELECTOR2"], 0)
     
 def selector2():
-    print (f"selector2: {routine["SELECTOR2"]}")
+    print (f"selector2: {routine['SELECTOR2']}")
     rs485.turn_on_relay(6)
     scheduler.SCH_Add_Task(selector3, routine["SELECTOR3"], 0)
     
 def selector3():
-    print (f"selector3: {routine["SELECTOR3"]}")
+    print (f"selector3: {routine['SELECTOR3']}")
     rs485.turn_on_relay(7)
     scheduler.SCH_Add_Task(pump_out, routine["PUMP_OUT"], 0)
     
 def pump_out():
-    print (f"pump out: {routine["PUMP_OUT"]}")
+    print (f"pump out: {routine['PUMP_OUT']}")
     rs485.turn_on_relay(8)
     
     if cycle > 0:
