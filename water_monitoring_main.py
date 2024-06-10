@@ -31,7 +31,6 @@ scheduler = Scheduler()
 scheduler.SCH_Init()
 
 def message(client , feed_id , payload):
-    print (payload, feed_id)
     if feed_id == "routine":
         global routine
         routine = json.loads(payload)
@@ -108,7 +107,9 @@ def start_routine():
 
 def stop_routine():
     print("stop irrigation process")
-    scheduler.SCH_Dispatch_Tasks()
+    scheduler.SCH_Delete_all
+    scheduler.SCH_Add_Task(temp_dummy, 1, 5)
+    scheduler.SCH_Add_Task(humid_dummy, 1, 5)()
 
 def temp_dummy():
     temp = random.random()*(30-27) + 27
