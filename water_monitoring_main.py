@@ -78,9 +78,9 @@ def selector3():
 def pump_out():
     print (f"pump out: {routine['PUMP_OUT']}")
     rs485.turn_on_relay(8)
+    global cycle
     
     if cycle > 0:
-        global cycle
         cycle+=1
         scheduler.SCH_Add_Task(mixer1, routine["MIXER1"], 0)
     else:
