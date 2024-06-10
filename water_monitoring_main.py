@@ -110,12 +110,12 @@ def stop_routine():
     scheduler.SCH_Dispatch_Tasks()
 
 def temp_dummy():
-    temp = random()*(30-27) + 27
+    temp = random.random()*(30-27) + 27
     print(f"Nhiet do hien tai la: {temp}")
     mqtt.client.publish("temp", temp)
     
 def humid_dummy():
-    humid = random()*(90-70) + 70
+    humid = random.random()*(90-70) + 70
     print(f"Do am hien tai la: {humid}")
     mqtt.client.publish("humid", humid)
     
