@@ -96,6 +96,7 @@ def stop_routine():
     print("stop irrigation process")
     scheduler.SCH_Dispatch_Tasks()
 
+start_routine()
 while (1):
     scheduler.SCH_Update()
     scheduler.SCH_Dispatch_Tasks()
