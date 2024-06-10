@@ -56,7 +56,7 @@ class Scheduler:
             self.current_index_task = self.current_index_task - 1
             if self.SCH_tasks_G[0].Period > 0:
                 self.SCH_Add_Task(new_pTask, new_delay, new_period)
-                # self.print_delay_list()
+                self.print_delay_list()
 
            
 
