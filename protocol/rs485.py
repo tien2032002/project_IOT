@@ -4,6 +4,7 @@ import time
 import serial.tools.list_ports
 import serial as s
 import datetime
+import json
 
 relay_ON = [                                                                                                                                                                                                                                                                                                                                                                                
       None,                                                                                                                                                                                                                                                                                                                                                                                 
@@ -116,7 +117,7 @@ class Rs485:
             "id": id,
             "status": "on"
         }
-        mqtt.client.publish("history", record)
+        mqtt.client.publish("history", json.dumps(record))
         
         print(f"turn on relay id {id}")
         self.serial_read_data()
@@ -130,7 +131,7 @@ class Rs485:
             "id": id,
             "status": "on"
         }
-        mqtt.client.publish("history", record)
+        mqtt.client.publish("history", json.dumps(record))
         
         print(f"turn off relay id {id}")
         self.serial_read_data()
