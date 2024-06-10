@@ -18,7 +18,6 @@ class Scheduler:
             aTask = Task(pFunction, DELAY * self.TICK, PERIOD * self.TICK)
             self.SCH_tasks_G.append(aTask)
             self.current_index_task += 1
-            print(f"add task with delay = {DELAY}, period = {PERIOD}")
             return True
 
         if self.current_index_task < self.SCH_MAX_TASKS:

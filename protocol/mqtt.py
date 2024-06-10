@@ -4,8 +4,8 @@ import requests
 import json
 import time
 
-AIO_FEED_IDs = ["temp", 'humid']
-AIO_USERNAME = "tien2032002"
+AIO_FEED_IDs = ["temp", 'humid', "routine", "history"]
+AIO_USERNAME = input("Enter user name: ")
 AIO_KEY = input("Enter key: ")
 
 TEMP_TOPIC = "temp"

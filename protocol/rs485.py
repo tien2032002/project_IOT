@@ -3,6 +3,7 @@ print("Sensors and Actuators")
 import time                                                                                                                                                                                                                                                                                                                                                                                 
 import serial.tools.list_ports
 import serial as s
+import datetime
 
 relay_ON = [                                                                                                                                                                                                                                                                                                                                                                                
       None,                                                                                                                                                                                                                                                                                                                                                                                 
@@ -109,13 +110,29 @@ class Rs485:
             out = self.ser.read(bytesToRead)
             print ("buffer: ", out)
             
-    def turn_on_relay(self, id):
+    def turn_on_relay(self, id, mqtt):
+        record = {
+            "time": datetime.now().strftime("%H:%M:%S"),
+            "id": id,
+            "status": "on"
+        }
+        mqtt.client.publish("history", record)
+        
+        print(f"turn on relay id {id}")
         self.serial_read_data()
         self.clear_buffer()
         self.ser.write(s.to_bytes(relay_ON[id]))
         return True
     
-    def turn_off_relay(self, id):
+    def turn_off_relay(self, id, mqtt):
+        record = {
+            "time": datetime.now().strftime("%H:%M:%S"),
+            "id": id,
+            "status": "on"
+        }
+        mqtt.client.publish("history", record)
+        
+        print(f"turn off relay id {id}")
         self.serial_read_data()
         self.clear_buffer()
         self.ser.write(s.to_bytes(relay_OFF[id]))  

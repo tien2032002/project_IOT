@@ -6,11 +6,13 @@ from Scheduler.scheduler import  *
 import time
 import json
 import schedule
+import random
+from datetime import datetime
 
 # timeout, in dict
 
 routine = {
-    "cycle": 5,
+    "cycle": 2,
     'MIXER1': 2,
     'MIXER2': 2,
     'MIXER3': 2,
@@ -33,8 +35,10 @@ def message(self, client , feed_id , payload):
         global routine
         routine = json.loads(payload)
         scheduler.SCH_Delete_all()
-        schedule.every().day.at(routine["start"]).do(start_routine)
-        schedule.every().day.at(routine["stop"]).do(stop_routine)
+        if routine["is_active"]:
+            schedule.every().day.at(routine["start"]).do(start_routine)
+            schedule.every().day.at(routine["stop"]).do(stop_routine)
+            
 mqtt = MQTT(message)
 rs485 = Rs485()
 
@@ -42,42 +46,50 @@ cycle = 0
 
 def mixer1():
     print (f"mixer1: {routine['MIXER1']}")
-    rs485.turn_on_relay(1)
+    rs485.turn_off_relay(8, mqtt)
+    rs485.turn_on_relay(1, mqtt)
     scheduler.SCH_Add_Task(mixer2, routine["MIXER2"], 0)
     
 def mixer2():
     print (f"mixer2: {routine['MIXER2']}")
-    rs485.turn_on_relay(2)
+    rs485.turn_off_relay(1, mqtt)
+    rs485.turn_on_relay(2, mqtt)
     scheduler.SCH_Add_Task(mixer3, routine["MIXER3"], 0)
     
 def mixer3():
     print (f"mixer3: {routine['MIXER3']}")
-    rs485.turn_on_relay(3)
+    rs485.turn_off_relay(2, mqtt)
+    rs485.turn_on_relay(3, mqtt)
     scheduler.SCH_Add_Task(pump_in, routine['PUMP_IN'], 0)
     
 def pump_in():
     print (f"pump in: {routine['PUMP_IN']}")
-    rs485.turn_on_relay(4)
+    rs485.turn_off_relay(3, mqtt)
+    rs485.turn_on_relay(4, mqtt)
     scheduler.SCH_Add_Task(selector1, routine["SELECTOR1"], 0)
     
 def selector1():
     print (f"selector1: {routine['SELECTOR1']}")
-    rs485.turn_on_relay(5)
+    rs485.turn_off_relay(4, mqtt)
+    rs485.turn_on_relay(5, mqtt)
     scheduler.SCH_Add_Task(selector2, routine["SELECTOR2"], 0)
     
 def selector2():
     print (f"selector2: {routine['SELECTOR2']}")
-    rs485.turn_on_relay(6)
+    rs485.turn_off_relay(5, mqtt)
+    rs485.turn_on_relay(6, mqtt)
     scheduler.SCH_Add_Task(selector3, routine["SELECTOR3"], 0)
     
 def selector3():
     print (f"selector3: {routine['SELECTOR3']}")
-    rs485.turn_on_relay(7)
+    rs485.turn_off_relay(6, mqtt)
+    rs485.turn_on_relay(7, mqtt)
     scheduler.SCH_Add_Task(pump_out, routine["PUMP_OUT"], 0)
     
 def pump_out():
     print (f"pump out: {routine['PUMP_OUT']}")
-    rs485.turn_on_relay(8)
+    rs485.turn_off_relay(7, mqtt)
+    rs485.turn_on_relay(8, mqtt)
     global cycle
     
     if cycle > 0:
@@ -90,11 +102,25 @@ def start_routine():
     global cycle
     cycle = 1
     print("start irrigation process")
+    print(routine)
     scheduler.SCH_Add_Task(mixer1, routine["MIXER1"], 0)
 
 def stop_routine():
     print("stop irrigation process")
     scheduler.SCH_Dispatch_Tasks()
+
+def temp_dummy():
+    temp = random()*(30-27) + 27
+    print(f"Nhiet do hien tai la: {temp}")
+    mqtt.client.publish("temp", temp)
+    
+def humid_dummy():
+    humid = random()*(90-70) + 70
+    print(f"Do am hien tai la: {humid}")
+    mqtt.client.publish("humid", humid)
+    
+scheduler.SCH_Add_Task(temp_dummy, 1, 5)
+scheduler.SCH_Add_Task(humid_dummy, 1, 5)
 
 start_routine()
 while (1):
