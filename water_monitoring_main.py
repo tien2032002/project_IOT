@@ -31,6 +31,7 @@ scheduler = Scheduler()
 scheduler.SCH_Init()
 
 def message(client , feed_id , payload):
+    print (payload, feed_id)
     if feed_id == "routine":
         global routine
         routine = json.loads(payload)
