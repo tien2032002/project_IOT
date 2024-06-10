@@ -122,7 +122,7 @@ def humid_dummy():
 scheduler.SCH_Add_Task(temp_dummy, 1, 5)
 scheduler.SCH_Add_Task(humid_dummy, 1, 5)
 
-start_routine()
+# start_routine()
 while (1):
     scheduler.SCH_Update()
     scheduler.SCH_Dispatch_Tasks()
