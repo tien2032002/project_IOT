@@ -112,7 +112,7 @@ class Rs485:
             
     def turn_on_relay(self, id, mqtt):
         record = {
-            "time": datetime.now().strftime("%H:%M:%S"),
+            "time": datetime.datetime.now().strftime("%H:%M:%S"),
             "id": id,
             "status": "on"
         }
@@ -126,7 +126,7 @@ class Rs485:
     
     def turn_off_relay(self, id, mqtt):
         record = {
-            "time": datetime.now().strftime("%H:%M:%S"),
+            "time": datetime.datetime.now().strftime("%H:%M:%S"),
             "id": id,
             "status": "on"
         }
