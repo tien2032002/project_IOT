@@ -34,7 +34,7 @@ def message(client , feed_id , payload):
     if feed_id == "routine":
         global routine
         routine = json.loads(payload)
-        scheduler.SCH_Delete_all()
+        stop_routine()
         if routine["is_active"]:
             schedule.every().day.at(routine["start"]).do(start_routine)
             schedule.every().day.at(routine["stop"]).do(stop_routine)
@@ -109,7 +109,7 @@ def stop_routine():
     print("stop irrigation process")
     scheduler.SCH_Delete_all
     scheduler.SCH_Add_Task(temp_dummy, 1, 5)
-    scheduler.SCH_Add_Task(humid_dummy, 1, 5)()
+    scheduler.SCH_Add_Task(humid_dummy, 1, 5)
 
 def temp_dummy():
     temp = random.random()*(30-27) + 27
