@@ -108,8 +108,8 @@ def start_routine():
 def stop_routine():
     print("stop irrigation process")
     scheduler.SCH_Delete_all
-    scheduler.SCH_Add_Task(temp_dummy, 1, 5)
-    scheduler.SCH_Add_Task(humid_dummy, 1, 5)
+    # scheduler.SCH_Add_Task(temp_dummy, 1, 5)
+    # scheduler.SCH_Add_Task(humid_dummy, 1, 5)
 
 def temp_dummy():
     temp = random.random()*(30-27) + 27
@@ -121,8 +121,8 @@ def humid_dummy():
     print(f"Do am hien tai la: {humid}")
     mqtt.client.publish("humid", humid)
     
-scheduler.SCH_Add_Task(temp_dummy, 1, 5)
-scheduler.SCH_Add_Task(humid_dummy, 1, 5)
+# scheduler.SCH_Add_Task(temp_dummy, 1, 5)
+# scheduler.SCH_Add_Task(humid_dummy, 1, 5)
 
 # start_routine()
 while (1):
